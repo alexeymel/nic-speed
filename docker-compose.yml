@@ -1,0 +1,22 @@
+version: '3.8'
+services:
+  nic-speed-frontend:
+    image: nic-speed-frontend:0.1.0
+    restart: always
+    ports:
+      - "80:80"
+  nic-speed-backend:
+    image: nic-speed-backend:0.1.0
+    restart: always
+    volumes:
+      - ./uploads:/app/registry
+    environment:
+      - NODE_ENV=production
+    deploy:
+      mode: replicated
+      replicas: 3
+      update_config:
+        parallelism: 2
+        delay: 10s
+        order: stop-first
+      
